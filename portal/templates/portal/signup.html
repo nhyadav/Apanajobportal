@@ -1,0 +1,164 @@
+{% extends 'portal/base.html' %}
+{% block css %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'portal/css/signup.css' %}">
+{% endblock css %}
+
+{% block title %}Register{% endblock title %}
+{% block navigation %}
+<div class='container shadow' style='border-radius: 1.5em;'>
+    <ul class="nav justify-content-center my-3">
+        <li class="nav-item py-3">
+            <a class="nav-link" aria-current="page" href="/"><strong>Home</strong></a>
+        </li>
+        <li class="nav-item py-3">
+            <a class="nav-link" href="#"><strong>Jobs</strong></a>
+        </li>
+        <li class="nav-item py-3">
+            <a class="nav-link" href="#"><strong>Contact Us</strong></a>
+        </li>
+        <li class="nav-item py-3">
+            <a class="nav-link"><strong>About Us</strong></a>
+        </li>
+    </ul>
+</div>
+{% endblock navigation %}
+{% block content %}
+{% for message in messages %}
+<div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+    <strong>Message:</strong> {{ message }}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+{% endfor %}
+<div class="container main">
+    <p class="sign" align="center">Register New User</p>
+
+    <div class="accordion accordion-flush p-2" id="accordionFlushExample">
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="flush-headingOne">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                    Employee
+                </button>
+            </h2>
+            <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne"
+                 data-bs-parent="#accordionFlushExample">
+                <div class="accordion-body">
+                    <form class="form1" action="/signup" method='post'>
+                        {% csrf_token %}
+                        <div class='form row'>
+                            <div class='form-group col-md-6'>
+                                <label class="label" for=''>FirstName</label><br>
+                                <input class="un " type="text" id='fname' name='fname' align="center"
+                                       placeholder="FirstName"><br>
+                            </div>
+                            <div class='form-group col-md-6'>
+                                <label class="label" for=''>LastName</label><br>
+                                <input class="un " type="text" id='lname' name='lname' align="center"
+                                       placeholder="LastName"><br>
+                            </div>
+                        </div>
+                        <div class='from row'>
+                            <div class='form-group col-md-6'>
+                                <label class="label" for=''>Email</label><br>
+                                <input class="un " type="email" id='email' name='email' align="center"
+                                       placeholder="Email"><br>
+                            </div>
+                            <div class='form-group col-md-6'>
+                                <label class="label" for=''>Password</label><br>
+                                <input class="pass" type="Password" id='password' name='password' align="center"
+                                       placeholder="Password"><br>
+                            </div>
+                        </div>
+                        <div class='form row'>
+                            <div class='from-group col-md-6'>
+                                <label class="label" for=''>Re-Password</label><br>
+                                <input class="pass" type="password" id='repsw' name='repsw' align="center"
+                                       placeholder="Password Again!"><br>
+                            </div>
+
+                            <div class='form-group col-md-6'>
+                                <label class="label" for=''>Select Your Role</label><br>
+                                <select class="custom-select un" id="inputGroupSelect04" name='role'
+                                        aria-label="Example select with button addon">
+                                    <option value="Student" selected>Student</option>
+                                    <option value="Employee">Employee</option>
+                                    <option value="Fresher">Fresher</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class='my-3 py-3 text-center'>
+                            <button type='submit' class='submit'><a>Register</a></button>
+                        </div>
+                        <br>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="flush-headingTwo">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+                    Employer
+                </button>
+            </h2>
+            <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo"
+                 data-bs-parent="#accordionFlushExample">
+                <div class="accordion-body">
+                    <form class="form1" action="/signup" method='post'>
+                        {% csrf_token %}
+                        <div class='form row'>
+                            <div class='form-group col-md-6'>
+                                <label class="label" for=''>FirstName</label><br>
+                                <input class="un " type="text" id='fname' name='fname' align="center"
+                                       placeholder="FirstName"><br>
+                            </div>
+                            <div class='form-group col-md-6'>
+                                <label class="label" for=''>LastName</label><br>
+                                <input class="un " type="text" id='lname' name='lname' align="center"
+                                       placeholder="LastName"><br>
+                            </div>
+                        </div>
+                        <div class='from row'>
+                            <div class='form-group col-md-6'>
+                                <label class="label" for=''>Email</label><br>
+                                <input class="un " type="email" id='email' name='email' align="center"
+                                       placeholder="Email"><br>
+                            </div>
+                            <div class='form-group col-md-6'>
+                                <label class="label" for=''>Password</label><br>
+                                <input class="pass" type="Password" id='password' name='password' align="center"
+                                       placeholder="Password"><br>
+                            </div>
+                        </div>
+                        <div class='form row'>
+                            <div class='from-group col-md-6'>
+                                <label class="label" for=''>Re-Password</label><br>
+                                <input class="pass" type="password" id='repsw' name='repsw' align="center"
+                                       placeholder="Password Again!"><br>
+                            </div>
+
+                            <div class='form-group col-md-6'>
+                                <label class="label" for=''>Select Your Role</label><br>
+                                <select class="custom-select un" id="inputGroupSelect04" name='role'
+                                        aria-label="Example select with button addon">
+                                    <option selected value="Employer">Employer</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <button type='submit' class='submit text-center'><a>Register</a></button>
+                        <br>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+{% endblock content %}

@@ -1,0 +1,31 @@
+{% extends 'job/base.html' %}
+{% block title %}Dashboard{% endblock title %}
+{% block content %}
+
+{% for message in messages %}
+<div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+    <strong>Message:</strong> {{ message }}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    </button>
+</div>
+{% endfor %}
+
+<h3 class='text-center'><strong>Welcome to Jobportal!!</strong></h3>
+
+<div class='container shadow my-5' style='border-radius: 1.5em;'>
+    {% if user.is_authenticated %}
+    {% if is_staff %}
+    {% include "job/employerdashboard.html" %}
+
+    {% else %}
+    {% include "job/employeedashboard.html" %}
+    {% endif %}
+    {% else %}
+    <button type="submit"><a href="/signup">SignUp</a></button>
+    <br/>
+    <br/>
+    <button type="submit"><a href="/login">SignIn</a></button>
+    {% endif %}
+</div>
+{% endblock content %}
+{% block footer %}align-bottom{% endblock footer %}

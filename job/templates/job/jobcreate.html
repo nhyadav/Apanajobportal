@@ -1,0 +1,71 @@
+{% extends 'job/base.html' %}
+{% block title %}Create a Job{% endblock title %}
+{% block css %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'job/css/profile.css' %}">
+{% endblock css %}
+{% block content %}
+{% for message in messages %}
+<div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+    <strong>Message:</strong> {{ message }}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+{% endfor %}
+<div class='container shadow my-3' style='border-radius: 1.5em;'>
+    <div class="text-center my-3 py-3">
+        <h2><strong>Welcome {{name|upper}}</strong></h2>
+        <br>
+        <h4><strong>Create a New Job:</strong></h4>
+    </div>
+    <form method='post' , action=''>
+        {% csrf_token%}
+        {% for field in form %}
+        {% if field.name == 'job_type' %}
+        <div class="form row text-center">
+            <div class="form-group col">
+                <label class="label" for="id_{{field.name}}">Job Type</label><br>
+                <select name="{{field.name}}" class="un" id="id_{{field.name}}" align="center" data-style="btn-black"
+                        data-width="100%" data-live-search="true" title="Select Job Type">
+                    <option value="1">Full time</option>
+                    <option value="2">Part time</option>
+                    <option value="3" {% if form.type.value == "3" %} selected {% endif %}>Internship</option>
+                </select>
+            </div>
+        </div>
+        {% elif field.name == 'category' %}
+        <div class='form row text-center'>
+            <div class="form-group col">
+                <label class="label" for="id_{{field.name}}">Category</label><br>
+                <select name="{{field.name}}" class="un" id="id_{{field.name}}" data-style="btn-black" data-width="100%"
+                        data-live-search="true" title="Select Job Type">
+
+                    {% for category in categories %}
+
+                    <option value="{{ category.id }}">{{ category.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        {% else %}
+        <div class='form row text-center'>
+            <div class='form-group col'>
+                <label class="label" for='id_{{field.name}}'>{{field.label}}</label><br>
+                <input class="un " type="{{field.field.widget.input_type}}" id='id_{{field.name}}' name='{{field.name}}'
+                       align="center" value="{{field.value}}"
+                       placeholder="{{field.field.widget.attrs.placeholder}}"><br>
+            </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+        <div class=" ms-5 text-left">
+            <p><i>**Please fill details in input box for create a new job and click on <b>create</b> button.**</i></p>
+        </div>
+        <div class="my-3 py-3 text-center">
+            <button type='submit' class="submit" align="center"><a>Create</a></button>
+        </div>
+    </form>
+</div>
+{% endblock content %}
+{% block footer %}align-bottom{% endblock footer %}

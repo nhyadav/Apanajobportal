@@ -1,0 +1,141 @@
+{% extends 'job/base.html' %}
+{% block title %}Profile{% endblock title %}
+{% block css %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'job/css/profile.css' %}">
+{% endblock css %}
+{% block content %}
+{% for message in messages %}
+<div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+    <strong>Message:</strong> {{ message }}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+{% endfor %}
+<div class='container shadow my-3' style='border-radius: 1.5em;'>
+    {% if guest %}
+    <div class="py-3 text-center">
+        <h2><strong>Welcome {{name|upper}}</strong></p>
+            <h4>This is your first time on profile page please update your details.</h4>
+    </div>
+    <form method='POST' , enctype="multipart/form-data">
+        {% csrf_token%}
+
+        {% for field in form %}
+        <div class='form row text-center'>
+            <div class='form-group col'>
+                <label class="label" for='id_{{field.name}}'>{{field.label}}</label><br>
+                <input class="un " type="{{field.field.widget.input_type}}" id='id_{{field.name}}' name='{{field.name}}'
+                       align="center" placeholder="{{field.field.widget.attrs.placeholder}}"><br>
+            </div>
+        </div>
+
+        {% endfor %}
+        <div class=" ms-5 text-left">
+            <p><i>**Please fill details in input box for update your details and click on <b>Save</b> button.**</i></p>
+        </div>
+        <div class="my-3 py-3 text-center">
+            <button type='submit' class="submit" align="center"><a>Save</a></button>
+        </div>
+    </form>
+
+    {% else %}
+    <div class="text-center my-3 py-3">
+        <h2><strong>Welcome {{name|upper}}</strong></h2>
+        <br>
+        <h4><strong>Your details are below:</strong></h4>
+    </div>
+    <form method='post' , action='/profile/edit/{{user_data.id}}'>
+        {% csrf_token%}
+
+        <div class='form row '>
+            <div class='form-group col'>
+                <label class="label" for='email'>Email ID:</label>
+            </div>
+            <div class='col-10'>
+                <input class="un" type="Email" id='email' name='email' align="center" value="{{request.user.username}}"
+                       disabled><br>
+            </div>
+        </div>
+
+        <div class='form row '>
+            <div class='form-group col'>
+                <label class="label" for='description'>Description:</label>
+            </div>
+            <div class='col-10'>
+                <textarea class="un" type="text" id='description' name='description' align="center"
+                          placeholder="{{user_data.description}}" disabled></textarea><br>
+            </div>
+        </div>
+
+        <div class='form row '>
+            <div class='form-group col'>
+                <label class="label" for='age'>Age:</label>
+            </div>
+            <div class='col-10'>
+                <input class="un" type="number" id='age' name='age' align="center" value="{{user_data.age}}"
+                       disabled><br>
+            </div>
+        </div>
+
+        <div class='form row'>
+            <div class='form-group col'>
+                <label class="label" for='contact'>Contact No:</label>
+            </div>
+            <div class='col-10'>
+                <input class="un" type="text" id='contact' name='contact' align="center"
+                       value="{{user_data.contact_no}}" disabled><br>
+            </div>
+        </div>
+
+        <div class='form row'>
+            <div class='form-group col'>
+                <label class="label" for='education'>Last Education:</label>
+            </div>
+            <div class='col-10'>
+                <input class="un" type="text" id='education' name='education' align="center"
+                       value="{{user_data.education}}" disabled><br>
+            </div>
+        </div>
+
+        <div class='form row'>
+            <div class='form-group col'>
+                <label class="label" for='address'>Address:</label>
+            </div>
+            <div class='col-10'>
+                <textarea class="un" type="text" id='address' name='address' align="center"
+                          placeholder="{{user_data.address}}" disabled></textarea><br>
+            </div>
+        </div>
+
+        <div class='form row '>
+            <div class='form-group col'>
+                <label class="label" for='country'>Country:</label>
+            </div>
+            <div class='col-10'>
+                <input class="un" type="text" id='country' name='country' align="center" value="{{user_data.country}}"
+                       disabled><br>
+            </div>
+        </div>
+
+        <div class='form row '>
+            <div class='form-group col-2'>
+                <label class="label" for='organization'>Organization/College:</label>
+            </div>
+            <div class='col-10'>
+                <input class="un" type="text" id='organization' name='organization' align="center"
+                       value="{{user_data.company_name}}" disabled><br>
+            </div>
+        </div>
+        <div class=" ms-5 text-left">
+            <p><i>**For updating the details, click on <b>Edit</b> button.**</i></p>
+        </div>
+        <div class="my-3 py-3 text-center">
+            <button type='submit' class="submit" align="center"><a>Edit</a></button>
+        </div>
+    </form>
+    {% endif %}
+</div>
+{% endblock content %}
+{% block footer %}align-bottom{% endblock footer %}

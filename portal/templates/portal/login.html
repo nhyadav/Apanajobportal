@@ -1,0 +1,46 @@
+{% extends 'portal/base.html' %}
+{% block css %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'portal/css/login.css' %}">
+{% endblock css %}
+
+{% block title %}Login{% endblock title %}
+{% block navigation %}
+<div class='container shadow' style='border-radius: 1.5em;'>
+    <ul class="nav justify-content-center my-3">
+        <li class="nav-item py-3">
+            <a class="nav-link" aria-current="page" href="/"><strong>Home</strong></a>
+        </li>
+        <li class="nav-item py-3">
+            <a class="nav-link" href="#"><strong>Jobs</strong></a>
+        </li>
+        <li class="nav-item py-3">
+            <a class="nav-link" href="#"><strong>Contact Us</strong></a>
+        </li>
+        <li class="nav-item py-3">
+            <a class="nav-link"><strong>About Us</strong></a>
+        </li>
+    </ul>
+</div>
+{% endblock navigation %}
+{% block content %}
+{% for message in messages %}
+<div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+    <strong>Message:</strong> {{ message }}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+{% endfor %}
+<div class="main">
+    <p class="sign" align="center">Login</p>
+    <form class="form1" action='/login' method='post'>
+        {% csrf_token %}
+        <input class="un" type="text" name='username' align="center" placeholder="Username">
+        <input class="pass" type="password" name='password' align="center" placeholder="Password">
+        <button type='submit' class="submit" align="center"><a>Sign in</a></button>
+        <p class="forgot" align="center"><a href="#">Forgot Password?</a>&nbsp;<a href="/signup">Register</a</p>
+
+    </form>
+</div>
+{% endblock content %}

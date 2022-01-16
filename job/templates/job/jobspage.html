@@ -1,0 +1,44 @@
+{% extends 'job/base.html' %}
+{% block title %}Jobs{% endblock title %}
+{% block content %}
+{% for message in messages %}
+<div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+    <strong>Message:</strong> {{ message }}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+{% endfor %}
+
+<div class="container shadow" style='border-radius: 1.5em;'>
+    {% if request.user.is_staff %}
+    <div class="row g-3 justify-content-center my-3 mx-5">
+        <div class="col-8">
+            <input class="form-control" type="text" placeholder="Search" aria-label="Search">
+        </div>
+        <div class="col-2">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </div>
+        <div class="col-2">
+            <a href='{% url "new_job" %}'>
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Create Job</button>
+            <a>
+        </div>
+    </div>
+    {% include 'job/jobforemployer.html' %}
+    {% else %}
+    <div class="row g-3 justify-content-center my-3 mx-5">
+        <div class="col-10">
+            <input class="form-control" type="text" placeholder="Search" aria-label="Search">
+        </div>
+        <div class="col-1">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </div>
+        {% include 'job/jobforemployee.html' %}
+        {% endif %}
+
+
+    </div>
+</div>
+{% endblock content %}
+{% block footer %}align-bottom{% endblock footer %}

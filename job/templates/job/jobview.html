@@ -1,0 +1,72 @@
+{% extends 'job/base.html' %}
+{% block title %}Job{% endblock title %}
+{% block css %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'job/css/profile.css' %}">
+{% endblock css %}
+{% block content %}
+{% for message in messages %}
+<div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+    <strong>Message:</strong> {{ message }}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+{% endfor %}
+<div class='container justify-content-center shadow my-3' style='border-radius: 1.5em;'>
+    
+    <div class=" card" style='border-radius: 1.5em;'>
+        <div class="card-header text-center"><strong>Company: </strong>{{job.company_name}}
+        </div>
+        <div class="card-body">
+            <div class="card-title text-center">
+                <h2><strong>{{job.title}}</strong></h2>
+            </div>
+            <div class="card-text my-3">
+                <h3 class='text-primary'>Job Description:</h3>{{job.description|safe}}
+            </div>
+            <div class="card-text my-3">
+                <h3 class='text-primary'>Company Description:</h3>{{job.company_description|safe}}
+            </div>
+            <div>
+                <h3 class="text-primary ">Job Summary</h3>
+                <ul class="list-unstyled">
+                    <li class="mb-2"><strong class="text-black">Published on:</strong> {{ job.timestamp|date:"d M Y" }}
+                    </li>
+                    <li class="mb-2"><strong class="text-black">Employment Status:</strong>
+                        {% if job.job_type == '1' %}
+                        Full Time
+                        {% elif job.job_type == '2'%}
+                        Part Time
+                        {% else %}
+                        Internship
+                        {% endif %}
+                    </li>
+                    <li class="mb-2"><strong class="text-black">Job Location:</strong> {{ job.location }}</li>
+                    <li class="mb-2"><strong class="text-black">Salary:</strong> {{ job.salary }}</li>
+                    <li class="mb-2"><strong class="text-black">Application Deadline:</strong> {{ job.last_date|date:"d M Y" }}
+                    </li>
+                    <li class="mb-2"><strong class="text-black">Company URL:&nbsp</strong><a href={{job.company_url}}>{{job.company_url}}</a>
+                    </li>
+                </ul>
+            </div>
+
+            {% if request.user.is_staff %}
+                <a href="{% url 'deletejob' job.id %}" class="btn btn-danger mx-3">Delete</a>
+                <a href="{% url 'editjob' job.id %}" class="btn btn-primary mx-3">Edit</a>
+
+                {% if job.is_published %}
+                <a href="{% url 'publishjob' job.id %}" class="btn btn-danger mx-3">Stop</a>
+                {% else %}
+                <a href="{% url 'publishjob' job.id %}" class="btn btn-success mx-3">Publish</a>
+                {% endif %}
+            {% else %}
+                <a href="{% url 'applyjob' job.id %}" class="btn btn-success mx-3">Apply</a>
+                <a href="{% url 'savejob' job.id %}" class="btn btn-primary mx-3">Save</a>
+            {% endif %}
+
+        </div>
+    </div>
+</div>
+{% endblock content %}
+{% block footer %}align-bottom{% endblock footer %}
