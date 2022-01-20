@@ -1,20 +1,24 @@
-<div class='container my-3' style='border-radius: 1.5em;'>
+<div class='container my-3 py-3' style='border-radius: 1.5em;'>
 
-    <div class='text-left mt-5'>
-        <h4><strong>{{job.job_type}}</strong></h4>
-    </div>
 
     <div class="row row-cols-1 row-cols-md-3 g-4">
         {% for job in employer_job %}
         <div class="col">
-            <div class="card h-100 text-center text-white bg-success mb-3" style="max-width: 18rem;">
-                <div class="card-header">{{job.job_type}}</div>
+            <div class="card h-100 text-white mb-3" style="max-width: 18rem; background-color:#960087;">
+                <div class="card-header text-center">
+                    {% if job.job_type == '1' %}
+                    Full Time
+                    {% elif job.job_type == '2' %}
+                    Part Time
+                    {% else %}
+                    Internship
+                    {% endif %}
+                </div>
                 <div class="card-body">
-                    <h5 class="card-title">{{job.title}}</h5>
-                    <p class="card-text">{{job.description|safe}}</p>
-                    <p>link:&nbsp<a href='#'>{{job.company_url}}</a></p>
-                    <p class='card-text'>Last Date: {{job.last_date}}</p><br>
-                    <a href="{% url 'viewjob' job.id %}" class="btn btn-primary mx-3">View</a>
+                    <h5 class="card-title text-center">{{job.title}}</h5>
+                    <p class="card-text justify-content-center"><strong>Job Description:</strong>&nbsp{{job.description|safe|truncatechars:200}}</p>
+                
+                    <a href="{% url 'viewjob' job.id %}" class="btn btn-success mx-3">View</a>
                     <a href="{% url 'editjob' job.id %}" class="btn btn-primary mx-3">Edit</a>
                 </div>
                 <div class="card-footer">

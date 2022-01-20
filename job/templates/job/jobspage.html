@@ -1,5 +1,10 @@
 {% extends 'job/base.html' %}
 {% block title %}Jobs{% endblock title %}
+{% block script %}
+    var alertList = document.querySelectorAll('.alert')
+    var alerts =  [].slice.call(alertList).map(function (element) {
+    return new bootstrap.Alert(element)
+}){% endblock script %}
 {% block content %}
 {% for message in messages %}
 <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
@@ -10,31 +15,93 @@
 </div>
 {% endfor %}
 
-<div class="container shadow" style='border-radius: 1.5em;'>
+<div class="container shadow my-3 d-block" style='border-radius: 1.5em;'>
     {% if request.user.is_staff %}
-    <div class="row g-3 justify-content-center my-3 mx-5">
-        <div class="col-8">
+
+    <div class="row g-3 justify-content-center my-3 mx-5 d-flex">
+        <form class ="col d-flex" action="/search">
+            {% csrf_token %}
+        <div class='col-10'>
             <input class="form-control" type="text" placeholder="Search" aria-label="Search">
         </div>
-        <div class="col-2">
+        <div class="mx-2">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
         </div>
+        </form>
         <div class="col-2">
             <a href='{% url "new_job" %}'>
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Create Job</button>
             <a>
         </div>
     </div>
-    {% include 'job/jobforemployer.html' %}
+    
+    {% if page_obj %}
+    <div class="container my-3 py-3">
+        <div class="row row-cols-1 row-cols-md-3 g-4 ms-0">
+            {% for job in page_obj %}
+            <div class="col">
+            <div class="card h-100 text-white" style="background-color: #B50211;">
+                <div class="card-header text-center">{{job.job_type}}</div>
+                <div class="card-body">
+                    <h5 class="card-title text-center">{{job.title}}</h5>
+                    <p class="card-text text-left"><strong>Job Description:</strong>&nbsp{{job.description|safe|truncatechars:100}}</p>
+                    <p>link:&nbsp<a href='#'>{{job.company_url}}</a></p>
+                    <p class='card-text'>Last Date: {{job.last_date}}</p><br>
+                    <a href="{% url 'viewjob' job.id %}" class="btn btn-primary mx-3">View</a>
+                    <a href="{% url 'editjob' job.id %}" class="btn btn-primary mx-3">Edit</a>
+                </div>
+                <div class="card-footer">
+                    <small class="text-white">Published on: {{job.timestamp}}</small>
+                </div>
+            </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+      
+          
+        {% include 'job/paginator.html' %}
+    {% else %}
+        {% include 'job/jobforemployer.html' %}
+    {% endif %}
     {% else %}
     <div class="row g-3 justify-content-center my-3 mx-5">
+    <form class="d-flex" action="/search">
+        {% csrf_token %}
         <div class="col-10">
             <input class="form-control" type="text" placeholder="Search" aria-label="Search">
         </div>
-        <div class="col-1">
+        <div class="col-1 mx-3">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
         </div>
+    </form>
+        {% if page_obj %}
+        <div class="cointainer my-3 py-3">
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            {% for job in page_obj %}
+            <div class="col">
+            <div class="card h-100 text-white" style="background-color:#C70285;">
+                <div class="card-header text-center">{{job.company_name}}</div>
+                <div class="card-body">
+                    <h5 class="card-title text-center">{{job.title}}</h5>
+                    <p class="card-text text-center"><strong>Job Description:</strong>&nbsp{{job.description|safe|truncatechars:100}}</p>
+                    <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                        <a href="{% url 'applyjob' job.id %}" class="btn btn-success">Apply</a>
+                        <a href="{% url 'viewjob' job.id %}" class="btn btn-primary">View</a>
+                        <a href="{% url 'savejob' job.id %}" class="btn btn-warning">Save</a>
+                    </div>
+                </div>
+            </div>
+            </div>
+            {% endfor %}
+        </div>
+        </div>
+      
+          
+          {% include 'job/paginator.html' %}
+        {% else %}
         {% include 'job/jobforemployee.html' %}
+        {% endif %}
         {% endif %}
 
 

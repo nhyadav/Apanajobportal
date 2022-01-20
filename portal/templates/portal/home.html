@@ -1,16 +1,24 @@
 {% extends 'job/base.html' %}
 {% block title %}Dashboard{% endblock title %}
-{% block content %}
+{% block script %}
+    var alertList = document.querySelectorAll('.alert')
+    var alerts =  [].slice.call(alertList).map(function (element) {
+    return new bootstrap.Alert(element)
+})
 
+
+{% endblock script %}
+{% block content %}
 {% for message in messages %}
 <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
     <strong>Message:</strong> {{ message }}
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
     </button>
 </div>
 {% endfor %}
 
-<h3 class='text-center'><strong>Welcome to Jobportal!!</strong></h3>
+<h3 class='text-center'><strong>Welcome to Dashboard</strong></h3>
 
 <div class='container shadow my-5' style='border-radius: 1.5em;'>
     {% if user.is_authenticated %}

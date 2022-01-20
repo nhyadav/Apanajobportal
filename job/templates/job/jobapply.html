@@ -1,9 +1,14 @@
 {% extends 'job/base.html' %}
-{% block title %}Profile{% endblock title %}
+{% block title %}Applyjob{% endblock title %}
 {% block css %}
 {% load static %}
 <link rel="stylesheet" type="text/css" href="{% static 'job/css/profile.css' %}">
 {% endblock css %}
+{% block script %}
+    var alertList = document.querySelectorAll('.alert')
+    var alerts =  [].slice.call(alertList).map(function (element) {
+    return new bootstrap.Alert(element)
+}){% endblock script %}
 {% block content %}
 {% for message in messages %}
 <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
@@ -14,7 +19,7 @@
 </div>
 {% endfor %}
 <div class='container justify-content-center shadow my-3' style='border-radius: 1.5em;'>
-<form class="text-center my-3" enctype="multipart/form-data" method='POST'>
+<form class="text-center my-3 py-3" enctype="multipart/form-data" method='POST'>
     {% csrf_token %}
     
     {% for field in form %}
@@ -28,6 +33,16 @@
 
             </div>
         </div>
+        {% elif field.name == "contact_no" %}
+        <div class='form row my-3'>
+            <div class='form-group col'>
+                <label class="label" for='contact'>Enter your working contact number:</label>
+            </div>
+            <div class='col-10'>
+                <input class="un" type="{{field.field.widget.input_type}}" id='contact' name='{{field.name}}' align="center" placeholder="plese! enter your working phone number">
+
+            </div>
+        </div>
         {% endif %}
     
     {% endfor %}
@@ -36,4 +51,4 @@
 
 </div>
 {% endblock content %}
-{% block footer %}align-bottom{% endblock footer %}
+{% block footer %}fixed-bottom{% endblock footer %}

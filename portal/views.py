@@ -9,7 +9,7 @@ from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.utils.encoding import force_bytes, force_text
 from django.contrib.auth import authenticate, logout, login as dj_login
 from . token import generate_token
-from job.models import Job
+from job.models import Job, SaveJob,Applicant,ApplyJob
 
 
 # Create your views here.
@@ -185,14 +185,35 @@ def signout(request):
 
 ###########dashboard######
 def dashboard(request):
+    #employer
     user = get_object_or_404(User,id=request.user.id)
-    jobs = Job.objects.filter(user=user, is_published=True)
+    if request.user.is_staff:
+        jobs = Job.objects.filter(user=user, is_published=True)
+        applicants=[]
+        for job in jobs:
+            applicant = Applicant.objects.filter(job=job)
+            if applicant:
+                applicants.append(applicant)
+                
+        
+        context={
+                    'name': request.user.first_name,
+                    'is_authenticated': request.user.is_authenticated,
+                    'is_staff': request.user.is_staff,
+                    'jobs':jobs,
+                    'applicants':applicants
+                }
+    
 
-    context = {
-        'name': request.user.first_name,
-        'is_authenticated': request.user.is_authenticated,
-        'is_staff': request.user.is_staff,
-        'total_job': len(jobs),
-        'jobs': jobs
-    }
+    #employee
+    else:
+        savedjob = SaveJob.objects.filter(user=user)
+        applyedjob = ApplyJob.objects.filter(user=user) 
+        context = {
+            'name': request.user.first_name,
+            'is_authenticated': request.user.is_authenticated,
+            'is_staff': request.user.is_staff,
+            'savedjob': savedjob,
+            'applyedjob': applyedjob,
+        }
     return render(request, 'portal/home.html', context=context)

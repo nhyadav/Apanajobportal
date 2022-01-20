@@ -1,4 +1,4 @@
-<div class='container my-3' style='border-radius: 1.5em;'>
+<div class='container my-3 py-3' style='border-radius: 1.5em;'>
     {% comment %} full time {% endcomment %}
     <div class='text-left mt-5'>
         <h4><strong>Full Time</strong></h4>
@@ -6,14 +6,16 @@
     <div class="row row-cols-1 row-cols-md-3 g-4">
         {% for job in full_time %}
         <div class="col">
-            <div class="card h-100 text-center text-white bg-success mb-3" style="max-width: 18rem;">
-                <div class="card-header">{{job.company_name}}</div>
+            <div class="card h-100 text-white mb-3" style="max-width: 18rem; background-color:#04D142;">
+                <div class="card-header text-center">{{job.company_name}}</div>
                 <div class="card-body">
-                    <h5 class="card-title">{{job.title}}</h5>
-                    <p class="card-text">{{job.description|safe}}</p>
-                    <a href="{% url 'applyjob' job.id %}" class="btn btn-primary mx-3">Apply</a>
-                    <a href="{% url 'viewjob' job.id %}" class="btn btn-primary mx-3">View</a>
-                    <a href="#" class="btn btn-primary mx-3">Save</a>
+                    <h5 class="card-title text-center">{{job.title}}</h5>
+                    <p class="card-text text-left"><strong>Job Description:</strong>&nbsp{{job.description|safe|truncatechars:200}}</p>
+                    <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                        <a href="{% url 'applyjob' job.id %}" class="btn btn-success">Apply</a>
+                        <a href="{% url 'viewjob' job.id %}" class="btn btn-primary">View</a>
+                        <a href="{% url 'savejob' job.id %}" class="btn btn-warning">Save</a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -26,14 +28,16 @@
     <div class="row row-cols-1 row-cols-md-3 g-4">
         {% for job in part_time %}
         <div class="col">
-                <div class="card h-100 text-center text-white bg-secondary mb-3" style="max-width: 18rem;">
-                <div class="card-header">{{job.company_name}}</div>
+                <div class="card h-100 text-white mb-3" style="max-width: 18rem; background-color:#4414C7;">
+                <div class="card-header text-center">{{job.company_name}}</div>
                 <div class="card-body">
-                    <h5 class="card-title">{{job.title}}</h5>
-                    <p class="card-text">{{job.description}}</p>
-                    <a href="{% url 'applyjob' job.id %}" class="btn btn-primary mx-3">Apply</a>
-                    <a href="{% url 'viewjob' job.id %}" class="btn btn-primary mx-3">View</a>
-                    <a href="#" class="btn btn-primary mx-3">Save</a>
+                    <h5 class="card-title text-center">{{job.title}}</h5>
+                    <p class="card-text text-left "><strong>Job Description:</strong>&nbsp{{job.description|truncatechars:200}}</p>
+                    <div class="btn-group text-center " role="group" aria-label="Basic mixed styles example">
+                        <a href="{% url 'applyjob' job.id %}" class="btn btn-success">Apply</a>
+                        <a href="{% url 'viewjob' job.id %}" class="btn btn-primary">View</a>
+                        <a href="{% url 'savejob' job.id %}" class="btn btn-warning">Save</a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -47,13 +51,13 @@
     <div class="row row-cols-1 row-cols-md-3 g-4">
         {% for job in internship %}
         <div class="col">
-                <div class="card h-100 text-center text-white bg-dark mb-3" style="max-width: 18rem;">
-                <div class="card-header">Company: {{job.company_name}}</div>
+                <div class="card h-100 text-white mb-3" style="max-width: 18rem; background-color:#B50282;">
+                <div class="card-header text-center">{{job.company_name}}</div>
                 <div class="card-body">
-                    <h5 class="card-title">{{job.title|upper}}</h5>
-                    <p class="card-text">{{job.description|safe}}</p>
+                    <h5 class="card-title text-center">{{job.title|upper}}</h5>
+                    <p class="card-text text-left"><strong>Job Description:</strong>&nbsp{{job.description|safe|truncatechars:200}}</p>
                     
-                    <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                    <div class="btn-group text-center" role="group" aria-label="Basic mixed styles example">
                     <a href="{% url 'applyjob' job.id %}" class="btn btn-success">Apply</a>
                     <a href="{% url 'viewjob' job.id %}" class="btn btn-primary">View</a>
                     <a href="{% url 'savejob' job.id %}" class="btn btn-warning">Save</a>

@@ -5,12 +5,15 @@ from django.contrib.auth.decorators import login_required
 from .forms import UserDetailForm, JobForm, JobEditForm, JobApplyForm
 from .models import UserDetails, Category, Job, Applicant, SaveJob, ApplyJob
 from django.contrib import messages
-
+from django.core.paginator import Paginator
+from .permission import *
+from django.http import FileResponse, Http404
+import os
+from jobportal.settings import MEDIA_ROOT
 
 # Create your views here.
 @login_required(login_url='/login')
 def jobs(request):
-    
     full_time = []
     part_time = []
     intership = []
@@ -25,9 +28,9 @@ def jobs(request):
     else:
         for job in jobs:
             
-            if job.job_type == 1 :
+            if job.job_type == '1' :
                 full_time.append(job)
-            elif job.job_type == 2 :
+            elif job.job_type == '2' :
                 part_time.append(job)
             else:
                 intership.append(job)
@@ -89,6 +92,7 @@ def edit_profile(request, id):
 
 #create new job
 @login_required(login_url='/login')
+@user_is_employer
 def job_create(request):
     form = JobForm(request.POST)
     user = get_object_or_404(User, id=request.user.id)
@@ -112,6 +116,7 @@ def job_create(request):
 
 
 @login_required(login_url='/login')
+@user_is_employer
 def job_edit(request, id):
     job = get_object_or_404(Job, id=id)
     form = JobEditForm(request.POST, instance=job)
@@ -141,6 +146,7 @@ def job_view(request, id):
     return render(request, 'job/jobview.html', context=context)
 
 @login_required(login_url='/login')
+@user_is_employer
 def deletejob(request, id):
     job = get_object_or_404(Job, id=id, user=request.user.id)
     if job:
@@ -149,6 +155,7 @@ def deletejob(request, id):
     return redirect('jobs')
 
 @login_required(login_url="/login")
+@user_is_employer
 def publishjob(request, id):
     job = get_object_or_404(Job, id=id, user=request.user.id)
     if job.is_published:
@@ -202,3 +209,79 @@ def savejob(request, jobid):
     else:
         messages.error(request, "You have already saved this job.")
         return redirect("viewjob", jobid)
+
+@login_required(login_url='login')
+def employeedeletejob(request, jobid):
+    #this is for applyed delete job
+    job = get_object_or_404(Job, id=jobid)
+    applyedjob = get_object_or_404(ApplyJob, job=job)
+    if applyedjob:
+        applyedjob.delete()
+        messages.success(request, "Your applyed job histrory has deleted.")
+        return redirect('dashboard')
+    else:
+        messages.error(request, "Your job from history is not deleted.")
+        return redirect('dashboard')
+
+@login_required(login_url='login')
+def saveddeletejob(request, jobid):
+    #this is for applyed delete job
+    job = get_object_or_404(Job, id=jobid)
+    savedjob = get_object_or_404(SaveJob, job=job)
+    if savedjob:
+        savedjob.delete()
+        messages.success(request, "Your saved job histrory has deleted.")
+        return redirect('dashboard')
+    else:
+        messages.error(request, "Your saved job is not deleted.")
+        return redirect('dashboard')
+
+
+@login_required(login_url='login')
+def searchjob(request):
+    job_list = Job.objects.order_by('-timestamp')
+
+    # Keywords
+    if 'job_title_or_company_name' in request.GET:
+        job_title_or_company_name = request.GET['job_title_or_company_name']
+
+        if job_title_or_company_name:
+            job_list = job_list.filter(title__icontains=job_title_or_company_name) | job_list.filter(
+                company_name__icontains=job_title_or_company_name)
+
+    # location
+    if 'location' in request.GET:
+        location = request.GET['location']
+        if location:
+            job_list = job_list.filter(location__icontains=location)
+
+    # Job Type
+    if 'job_type' in request.GET:
+        job_type = request.GET['job_type']
+        if job_type:
+            job_list = job_list.filter(job_type__iexact=job_type)
+    
+    paginator = Paginator(job_list, 8)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    context = {
+
+        'page_obj': page_obj,
+
+    }
+
+    return render(request, 'job/jobspage.html',context=context)
+
+
+
+@login_required(login_url="login")
+@user_is_employer
+def mediaopen(request, appid):
+    applicant = get_object_or_404(Applicant, id=appid)
+    print(applicant.resume)
+    try:
+        filepath = os.path.join(MEDIA_ROOT,str(applicant.resume))
+        print(filepath)
+        return FileResponse(open(filepath,'rb'), content_type='application/pdf')
+    except FileNotFoundError:
+        raise Http404()

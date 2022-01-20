@@ -164,7 +164,7 @@ class JobForm(forms.ModelForm):
 class JobApplyForm(forms.ModelForm):
     class Meta:
         model = Applicant
-        fields = ['resume']
+        fields = ['contact_no','resume']
 
 # class JobSaveForm(forms.ModelForm):
 #     class Meta:

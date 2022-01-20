@@ -56,6 +56,7 @@ class Job(models.Model):
 class Applicant(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     job = models.ForeignKey(Job, on_delete=models.CASCADE)
+    contact_no = models.CharField(max_length=12, blank=True)
     resume = models.FileField(upload_to="employee/resumes", default="")
     timestamp = models.DateTimeField(auto_now=True, auto_now_add=False)
 
