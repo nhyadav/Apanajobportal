@@ -20,7 +20,7 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'aryany214214@gmail.com'
-EMAIL_HOST_PASSWORD = 'p@t@n@hibh@i214'
+EMAIL_HOST_PASSWORD = 'p@sswordn@hi214'
 
 
 # Quick-start development settings - unsuitable for production
