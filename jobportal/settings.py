@@ -89,27 +89,23 @@ WSGI_APPLICATION = 'jobportal.wsgi.application'
 #         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
 # }
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': str(os.path.join(BASE_DIR, "db.sqlite3"))
-    }
-}
-
-
-import dj_database_url
-
-DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
 # DATABASES = {
-#     'default':{
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'ddi4k5sirk',
-#         'USER': 'e',
-#         'PASSWORD': '5c33211ed3e20cdac720484bcb141a3d2ac29e2e2',
-#         'HOST': 'ec2-52-ws.com',
-#         'PORT': '5432',
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': str(os.path.join(BASE_DIR, "db.sqlite3"))
 #     }
 # }
+
+DATABASES = {
+    'default':{
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'ddi4gbgjk5sirk',
+        'USER': 'ekzxunvreppxuz',
+        'PASSWORD': '5c33211ed3e20cdac720484bcb146371ec8646f469654876bc31a3d2ac29e2e2',
+        'HOST': 'ec2-52-70-120-204.compute-1.amazonaws.com',
+        'PORT': '5432',
+    }
+}
 
 
 # Password validation
