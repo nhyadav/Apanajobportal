@@ -44,10 +44,7 @@ def signup(request):
                 email = request.POST['email']
                 password = request.POST['password']
                 password2 = request.POST['repsw']
-                city = request.POST['city']
-                country = request.POST['country']
-                company = request.POST['company']
-                experiance = request.POST['experiance']
+        
 
                 if password == password2:
                     emp = User.objects.create_superuser(username=email,email=email,password=password)
