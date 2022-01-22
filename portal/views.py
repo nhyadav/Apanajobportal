@@ -52,7 +52,7 @@ def signup(request):
                     emp.last_name = lastname
                     emp.is_active = False
                     emp.save()
-                    messages.success(request,"Your Account is created.")
+                    messages.success(request,"Your Account is created. Please! check your email for confirmation email id.")
 
                     #welcome email
                     subject = 'Welcome in jobportal'
@@ -107,7 +107,7 @@ def signup(request):
                     emp.last_name = lastname
                     emp.is_active = False
                     emp.save()
-                    messages.success(request,"Your Account is created.")
+                    messages.success(request,"Your Account is created. Please! check your email for confirmation email id.")
                     #welcome email
                     subject = 'Welcome in jobportal'
                     message = 'Hello '+ emp.first_name+emp.last_name+' Welcome in jobportal!! \nThank for visiting our site. \nWe have also sent you a conformation email, please confirm the email. \n\nThanking You \n nvr'
