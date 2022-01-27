@@ -34,8 +34,8 @@ Life Cycle of implementing Web Application.
 
 
 ## Homepage
-![video](sshot/jobseeker.mp4)
-<video src='sshot/jobseeker.mp4' width=180 alter="video" />
+![video](https://drive.google.com/file/d/1R_FLEQz5lN76BlBlMWWgLpZkdpsNlnqz/view?usp=sharing)
+
 
 
 
