@@ -34,7 +34,10 @@ Life Cycle of implementing Web Application.
 
 
 ## Homepage
-![video](sshot/jobseeker2.gif)
+![home](sshot/home.png)
+![home2](sshot/home2.png)
+![login](sshot/login.png)
+![register](sshot/register.png)
 
 
 
