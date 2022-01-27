@@ -10,8 +10,16 @@ from django.utils.encoding import force_bytes, force_text
 from django.contrib.auth import authenticate, logout, login as dj_login
 from . token import generate_token
 from job.models import Job, SaveJob,Applicant,ApplyJob
+import logging
 
-
+# configure the logging for creating log file
+logging.basicConfig(filename="logging\\jobseeker\\userlogging.txt",
+                    filemode='a',
+                    format='%(asctime)s %(levelname)s-%(message)s',
+                    datefmt='%Y-%m-%d %H:%M:%S',
+                    level=logging.DEBUG
+                    )
+logging.info("JOBSEEKER is ready to use for users.")
 # Create your views here.
 def home(request):
     return render(request, 'portal/index.html')
@@ -19,17 +27,20 @@ def home(request):
 
 ####login############
 def login(request):
-    if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
+    try:
+        if request.method == 'POST':
+            username = request.POST['username']
+            password = request.POST['password']
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                dj_login(request,user)
+                return redirect('dashboard')
+            else:
+                messages.error(request, 'Bad Credintials')
+                logging.error("Bad Credintials")
+    except Exception as exp:
+        logging.error(exp)
 
-        user = authenticate(username=username, password=password)
-
-        if user is not None:
-            dj_login(request,user)
-            return redirect('dashboard')
-        else:
-            messages.error(request, 'Bad Credintials')
     return render(request,'portal/login.html')
 
 
@@ -53,6 +64,7 @@ def signup(request):
                     emp.is_active = False
                     emp.save()
                     messages.success(request,"Your Account is created. Please! check your email for confirmation email id.")
+                    logging.info("Account is created")
 
                     #welcome email
                     subject = 'Welcome in jobportal'
@@ -85,12 +97,14 @@ def signup(request):
                 else:
                     error = "Your password are not maching..."
                     messages.error(request, error)
+                    logging.error(error)
                     return redirect('signup')
                     
 
                 if User.objects.filter(username=email):
                     error = "Username and email id is already existing.!!"
                     messages.error(request, error)
+                    logging.error(error)
                     return redirect('signup')
 
             else:
@@ -108,6 +122,7 @@ def signup(request):
                     emp.is_active = False
                     emp.save()
                     messages.success(request,"Your Account is created. Please! check your email for confirmation email id.")
+                    logging.info("employee account is created")
                     #welcome email
                     subject = 'Welcome in jobportal'
                     message = 'Hello '+ emp.first_name+emp.last_name+' Welcome in jobportal!! \nThank for visiting our site. \nWe have also sent you a conformation email, please confirm the email. \n\nThanking You \n nvr'
@@ -137,16 +152,19 @@ def signup(request):
                 else:
                     error = "Your password are not maching..."
                     messages.error(request, error)
+                    logging.error(error)
                     return redirect('signup')
         
 
                 if User.objects.filter(username=email):
                     error = "Username and email id is already existing.!!"
                     messages.error(request, error)
+                    logging.error(error)
                     return redirect('signup')
         except Exception as ex:
             messages.error(request, ex)
             error = "Something went wrong!..."
+            logging.error(ex)
             return redirect('signup')
         
     return render(request, 'portal/signup.html')
@@ -167,8 +185,10 @@ def activate(request, uidb64, token):
         myuser.save()
         dj_login(request, myuser)
         messages.success(request, "Your Account has been activated!!")
+        logging.error("Your account is activated")
         return redirect('login')
     else:
+        logging.error("failed to account to activate")
         return render(request,'activation_failed.html')
 
 
@@ -177,6 +197,7 @@ def activate(request, uidb64, token):
 def signout(request):
     logout(request)
     messages.success(request,'logout successfully!!')
+    logging.info("successfully logout..")
     return redirect('home')
 
 
