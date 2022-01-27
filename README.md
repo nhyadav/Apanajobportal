@@ -34,7 +34,7 @@ Life Cycle of implementing Web Application.
 
 
 ## Homepage
-![home](sshot/home.png)
+![home](sshot/homepage.png)
 ![home2](sshot/home2.png)
 ![login](sshot/login.png)
 ![register](sshot/register.png)
