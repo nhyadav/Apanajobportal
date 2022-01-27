@@ -19,8 +19,8 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'aryany214214@gmail.com'
-EMAIL_HOST_PASSWORD = 'p@sswordn@hi214'
+EMAIL_HOST_USER = 'your email id'
+EMAIL_HOST_PASSWORD = 'email id password'
 
 
 # Quick-start development settings - unsuitable for production
@@ -99,9 +99,9 @@ WSGI_APPLICATION = 'jobportal.wsgi.application'
 DATABASES = {
     'default':{
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'ddi4gbgjk5sirk',
-        'USER': 'ekzxunvreppxuz',
-        'PASSWORD': '5c33211ed3e20cdac720484bcb146371ec8646f469654876bc31a3d2ac29e2e2',
+        'NAME': 'ddi4girk',
+        'USER': 'ekzxunvuz',
+        'PASSWORD': '5c33211ed3e20cdac720481a3d2ac29e2e2',
         'HOST': 'ec2-52-70-120-204.compute-1.amazonaws.com',
         'PORT': '5432',
     }
