@@ -34,7 +34,7 @@ Life Cycle of implementing Web Application.
 
 
 ## Homepage
-![homepage](plots/homepage/homepage.png)
+![video](jobportal\sshot\jobseeker.mp4)
 
 
 
@@ -91,5 +91,5 @@ git clone git@github.com:nhyadav/Apanajobportal.git
 - Narayan Hari Yadav
 - Rajan Yadav
 
-# Thank You
+# Thank You!
 
