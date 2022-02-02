@@ -62,19 +62,19 @@ To develop JOBSEEKER Web Application,
 we required environment for development. 
 I have used annaconda environment,
 
-```bash
+```python
 conda create -n envname python=version
 ```
 The above command will create a new environment with specified 
 python version.To install requirement library download the requirements.txt file from
 current github repository and run the below command. 
-```bash
+```python
 # install all required library in once 
 pip install -r requirements.txt
 ```
 In this project, I have used Django python framework. To work with django first we need to create 
 project in django then create application by below command.
-```bash
+```python
 django-admin startproject project_name
 # create app 
 python manage.py startapp app_name
@@ -84,7 +84,7 @@ python manage.py runserver
 
 another method for developing this Web Application
 - create a conda or virtual environment and clone this git repositor.
-```bash
+```python
 git clone git@github.com:nhyadav/Apanajobportal.git
 ```
 
