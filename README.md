@@ -89,7 +89,7 @@ git clone git@github.com:nhyadav/Apanajobportal.git
 ```
 
 ## Attribute
--lottiefiles
+- lottiefiles
 
 
 ## Contibuter
